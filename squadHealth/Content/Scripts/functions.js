@@ -13,15 +13,26 @@ function random8 (){
 
 function answer(question, colour){
     console.log (doGetTempID() + " " + question + " " + colour);
-    setMyAnswerImg(question,colour);
+    setMyAnswerImg(doGetTempID(),question,colour);
 }
 
-function setMyAnswerImg(question, colour){
+function setMyAnswerImg(tempID, question, colour){
     
     var questionNumber = question.replace("q", "")
     
-    document.getElementById("userans" + questionNumber).src = "images/" + colour + ".png"
+    document.getElementById("userans" + questionNumber).src = "content/images/" + colour + ".png"
 
+    httpGetAsync("/api/squadHealth?" + "sprintId=22&lastUpdateTime=2017-02-04T22:30&questionNumber=" + questionNumber + "&colour=" + colour + "&userId=" + tempID);
+
+}
+
+function httpGetAsync(theUrl) {
+    $.get(
+        theUrl,
+        function (data) {
+            //alert('page content: ' + data);
+        }
+    );
 }
 
 function doClear() {

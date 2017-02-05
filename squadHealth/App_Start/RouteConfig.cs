@@ -18,6 +18,11 @@ namespace squadHealth
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+                name: "squadHealth",
+                url: "api/{controller}/{sprintId}/{lastUpdateTime}/{questionNumber}/{colour}/{userId}"
+                );
         }
     }
 }
