@@ -5,6 +5,9 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using squadHealth.Models;
+using System.Configuration;
+using System.Data.SqlClient;
+using System.Text;
 
 namespace squadHealth.Controllers
 {
@@ -15,26 +18,37 @@ namespace squadHealth.Controllers
         public void Get([FromUri] vote input)
         {
 
-            squadHealthEntities db = new squadHealthEntities();
+            ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["directLocalDB"];
+            string sprintId = ConfigurationManager.AppSettings["sprintID"];
 
-            tbl_squadHealth newObj = new tbl_squadHealth();
+            SqlConnection conn = new SqlConnection(settings.ToString());
 
-            newObj.colour = input.colour;
-            newObj.lastUpdateTime = Convert.ToDateTime(input.lastUpdateTime);
-            newObj.questionNumber = Convert.ToInt16(input.questionNumber);
-            newObj.sprintId = Convert.ToInt16(input.sprintId);
-            newObj.userId = input.userId;
+            string mergeCmd = "update tbl_squadHealth set colour = '" + input.colour + "' where userid  ='" + input.userId+ "' and questionNumber = '"+ input.questionNumber+"' and sprintId = '"+ input.sprintId + "'";
 
-            var row = (from r in db.tbl_squadHealth
-                      where r.sprintId == newObj.sprintId &&
-                        r.userId == newObj.userId &&
-                        r.questionNumber == newObj.questionNumber
-                      select r);
-                      
-            db.tbl_squadHealth.Add(newObj);
-            db.SaveChanges();
+            SqlCommand cmd = new SqlCommand(mergeCmd, conn);
 
-         
+            conn.Open();
+            var noOfResults = cmd.ExecuteNonQuery();
+
+            if (noOfResults == 0) { 
+
+                squadHealthEntities db = new squadHealthEntities();
+
+                tbl_squadHealth newObj = new tbl_squadHealth();
+
+                newObj.colour = input.colour;
+                newObj.lastUpdateTime = Convert.ToDateTime(input.lastUpdateTime);
+                newObj.questionNumber = Convert.ToInt16(input.questionNumber);
+                newObj.sprintId = Convert.ToInt16(sprintId);
+                newObj.userId = input.userId;
+
+                db.tbl_squadHealth.Add(newObj);
+                db.SaveChanges();
+
+            }
+
+
+
         }
 
  
