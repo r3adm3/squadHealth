@@ -14,4 +14,10 @@ namespace squadHealth.Models
         public string userId {get; set;}
     
     }
+
+    public class teamResult
+    {
+        public string sprintId { get; set; }
+        public string questionNumber { get; set; }
+    }
 }

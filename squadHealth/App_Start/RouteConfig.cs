@@ -23,6 +23,11 @@ namespace squadHealth
                 name: "squadHealth",
                 url: "api/{controller}/{sprintId}/{lastUpdateTime}/{questionNumber}/{colour}/{userId}"
                 );
+
+            routes.MapRoute(
+                name: "squadHealthQResult",
+                url: "api/{controller}/{sprintId}/{questionNumber}"
+                );
         }
     }
 }

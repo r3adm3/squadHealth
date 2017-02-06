@@ -1,0 +1,1 @@
+﻿select distinct (colour), count(*) from tbl_squadHealth where questionNumber = '1' group by colour order by count(*)

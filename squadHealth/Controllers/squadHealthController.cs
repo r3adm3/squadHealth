@@ -46,11 +46,10 @@ namespace squadHealth.Controllers
                 db.SaveChanges();
 
             }
-
-
-
         }
 
- 
+
+       
+
     }
 }

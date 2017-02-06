@@ -24,13 +24,33 @@ function setMyAnswerImg(tempID, question, colour){
 
     httpGetAsync("/api/squadHealth?" + "sprintId=22&lastUpdateTime=2017-02-04T22:30&questionNumber=" + questionNumber + "&colour=" + colour + "&userId=" + tempID);
 
+    for (i = 1; i < 11; i++) {
+        getTeamAnswerResults(i)
+    }
 }
+
+function getTeamAnswerResults(question) {
+    httpGetAsyncTeam("/api/teamResult?sprintId=22&questionNumber=" + question, question)
+}
+
+function httpGetAsyncTeam(theUrl, question) {
+    $.get(
+        theUrl,
+        function (data) {
+            document.getElementById("teamans" + question).src = "content/images/" + data + ".png"
+            //alert('page content: ' + data);
+            //return data;
+        }
+    );
+}
+
 
 function httpGetAsync(theUrl) {
     $.get(
         theUrl,
         function (data) {
             //alert('page content: ' + data);
+            //return data;
         }
     );
 }
